@@ -1,18 +1,20 @@
 import { Router } from "express";
-import { UserController } from "../controllers/UserController";
+import { AuthRoutes } from "./auth.router";
+import { UserRoutes } from "./user.router";
 
 
-export class UserRoutes {
-  public router: Router;
-  private userController: UserController;
-  constructor() {
-    this.router = Router();
-    this.userController = new UserController();
-    this.initializeRoutes();
-  }
-
-  private initializeRoutes = () => {
-    this.router.get("/", this.userController.getAllUSers);
-    this.router.post("/", this.userController.create);
-  };
+export class RootRouter {
+    public router: Router
+    private authRoutes
+    private userRoutes
+    constructor() {
+        this.router = Router()
+        this.userRoutes = new UserRoutes().router
+        this.authRoutes = new AuthRoutes().router
+        this.initializeRoutes()
+    }
+    private initializeRoutes = () => {
+        this.router.use("/users", this.userRoutes)
+        this.router.use("/auth", this.authRoutes)
+    }
 }

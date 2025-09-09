@@ -9,21 +9,13 @@ export class UserController extends BaseController {
         this.userService = new UserService();
     }
 
-    public create = (req: Request, res: Response) => {
+    public getAllUSers = async (req: Request, res: Response) => {
         try {
-            // let user = this.userService.createUser(req.body);
-            // this.sendResponse(res, user, 201, "User Created Successfully ");
-        } catch (error: any) {
-            this.sendError(res, 500, error.message)
-        }
-    }
+            let users = await this.userService.getUsers();
 
-    public getAllUSers = (req: Request, res: Response) => {
-        try {
-            // let users= this.userService.getAllUsers()
-            // this.sendResponse(res,users,200,"Users Fetched Successfully")
+            this.sendResponse(res, users, 200, "Users Fetched Successfully");
         } catch (error) {
-            this.sendError(res, 500,)
+            this.sendError(res, 500);
         }
-    }
+    };
 }

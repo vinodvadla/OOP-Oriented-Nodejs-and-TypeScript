@@ -1,12 +1,13 @@
 import express, { Application, Request, Response } from "express";
-// import { UserRoutes } from "../routes";
+import { RootRouter } from "../routes";
 
-
- class App {
+class App {
   public app: Application;
+  private rootRouter;
 
   constructor() {
     this.app = express();
+    this.rootRouter = new RootRouter().router;
     this.config();
     this.routes();
   }
@@ -21,7 +22,7 @@ import express, { Application, Request, Response } from "express";
   }
 
   private routes() {
-    // this.app.use("/users", new UserRoutes().router);
+    this.app.use("/", this.rootRouter);
     this.app.get("/", (req: Request, res: Response) => {
       res.status(200).json({
         success: true,
@@ -31,7 +32,4 @@ import express, { Application, Request, Response } from "express";
   }
 }
 
-
-
-
-export const app= new App().app
+export const app = new App().app;

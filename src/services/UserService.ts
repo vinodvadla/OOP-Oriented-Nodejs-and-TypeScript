@@ -24,7 +24,7 @@ export class UserService {
       if (exists) {
         return false;
       }
-      let hashedPass = await bcrypt.hash(user.password, 10);
+      let hashedPass = await bcrypt.hash(user?.password, 10);
       user.password = hashedPass;
       let newUser = await this.User.create({
         data: user,
@@ -35,9 +35,11 @@ export class UserService {
     }
   };
 
-  public getUsers = async () => {
+  public getUsers = async (where: any = {}) => {
     try {
-      const users = await this.User.findMany();
+      const users = await this.User.findMany({
+        where: where,
+      });
       return users;
     } catch (error) {
       throw error;
@@ -61,8 +63,27 @@ export class UserService {
     }
   };
 
-  public updateUser = async (updatedFields: IUser) => {
+  public updateUser = async (updatedFields: any, id: number) => {
     try {
-    } catch (error) {}
+      let exists = await this.User.findUnique({
+        where: {
+          id,
+        },
+      });
+
+      if(!exists){
+        return false
+      }
+      const user = await this.User.update({
+        where: {
+          id,
+        },
+        data: updatedFields,
+      });
+
+      return user;
+    } catch (error) {
+      throw error;
+    }
   };
 }
