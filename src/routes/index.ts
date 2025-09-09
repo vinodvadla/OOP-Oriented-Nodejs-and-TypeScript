@@ -1,6 +1,7 @@
 import { Router } from "express";
 import { UserController } from "../controllers/UserController";
 
+
 export class UserRoutes {
   public router: Router;
   private userController: UserController;
@@ -12,6 +13,6 @@ export class UserRoutes {
 
   private initializeRoutes = () => {
     this.router.get("/", this.userController.getAllUSers);
-    this.router.post("/", this.userController.getAllUSers);
+    this.router.post("/", this.userController.create);
   };
 }
