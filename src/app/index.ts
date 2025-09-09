@@ -1,5 +1,6 @@
 import express, { Application, Request, Response } from "express";
-import { UserRoutes } from "../routes";
+// import { UserRoutes } from "../routes";
+
 
  class App {
   public app: Application;
@@ -20,7 +21,7 @@ import { UserRoutes } from "../routes";
   }
 
   private routes() {
-    this.app.use("/users", new UserRoutes().router);
+    // this.app.use("/users", new UserRoutes().router);
     this.app.get("/", (req: Request, res: Response) => {
       res.status(200).json({
         success: true,

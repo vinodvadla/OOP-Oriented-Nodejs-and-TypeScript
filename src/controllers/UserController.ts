@@ -11,8 +11,8 @@ export class UserController extends BaseController {
 
     public create = (req: Request, res: Response) => {
         try {
-            let user = this.userService.createUser(req.body);
-            this.sendResponse(res, user, 201, "User Created Successfully ");
+            // let user = this.userService.createUser(req.body);
+            // this.sendResponse(res, user, 201, "User Created Successfully ");
         } catch (error: any) {
             this.sendError(res, 500, error.message)
         }
@@ -20,8 +20,8 @@ export class UserController extends BaseController {
 
     public getAllUSers = (req: Request, res: Response) => {
         try {
-            let users= this.userService.getAllUsers()
-            this.sendResponse(res,users,200,"Users Fetched Successfully")
+            // let users= this.userService.getAllUsers()
+            // this.sendResponse(res,users,200,"Users Fetched Successfully")
         } catch (error) {
             this.sendError(res, 500,)
         }
