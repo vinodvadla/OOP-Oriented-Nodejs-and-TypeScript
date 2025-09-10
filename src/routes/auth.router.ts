@@ -1,18 +1,17 @@
-import { Router } from "express";
 import { AuthController } from "../controllers/AuthController";
+import { BaseRouter } from "./BaseRouter";
 
 
-export class AuthRoutes{
-    public router:Router
+export class AuthRoutes extends BaseRouter{
     private authController:AuthController
 
     constructor(){
-        this.router=Router()
+        super()
         this.authController=new AuthController()
         this.initializeRoutes()
     }
 
-    private initializeRoutes=()=>{
+     initializeRoutes=()=>{
         this.router.post("/register",this.authController.register)
     }
 }

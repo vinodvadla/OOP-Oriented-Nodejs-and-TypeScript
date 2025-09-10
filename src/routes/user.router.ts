@@ -1,16 +1,14 @@
-import { Router } from "express";
 import { UserController } from "../controllers/UserController";
+import { BaseRouter } from "./BaseRouter";
 
-
-export class UserRoutes {
-  public router: Router;
+export class UserRoutes extends BaseRouter {
   private userController: UserController;
   constructor() {
-    this.router = Router();
+    super();
     this.userController = new UserController();
     this.initializeRoutes();
   }
-  private initializeRoutes = () => {
+   initializeRoutes = () => {
     this.router.get("/", this.userController.getAllUSers);
   };
 }

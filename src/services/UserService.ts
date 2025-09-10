@@ -71,7 +71,7 @@ export class UserService {
         },
       });
 
-      if(!exists){
+      if (!exists) {
         return false
       }
       const user = await this.User.update({
