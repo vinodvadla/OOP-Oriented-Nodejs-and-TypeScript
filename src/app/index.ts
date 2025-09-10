@@ -1,5 +1,9 @@
 import express, { Application, Request, Response } from "express";
 import { RootRouter } from "../routes";
+import csurf from "csurf";
+import helmet from "helmet";
+import cors from "cors";
+import rateLimit from "express-rate-limit";
 
 class App {
   public app: Application;
@@ -13,6 +17,23 @@ class App {
   }
 
   private config() {
+    // this.app.use(
+    //   rateLimit({
+    //     windowMs: 15 * 60 * 1000,
+    //     max: 20,
+    //     message: "Too many requests",
+    //   })
+    // );
+
+    this.app.use(
+      cors({
+        origin: ["https://your-frontend.com"],
+        credentials: true,
+      })
+    );
+    // this.app.use(csurf({ cookie: true }));
+
+    this.app.use(helmet());
     this.app.use(express.json());
     this.app.use(
       express.urlencoded({

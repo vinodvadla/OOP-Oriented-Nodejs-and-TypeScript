@@ -1,4 +1,4 @@
-import { send } from "process";
+
 import client from "../client/prismaClient";
 import { UserService } from "../services/UserService";
 import { BaseController } from "./BaseController";
@@ -6,6 +6,7 @@ import { Request, Response } from "express";
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { ENV } from "../config";
+import { AuthRequest } from "../types/Requesttypes";
 
 export class AuthController extends BaseController {
     private User;
@@ -18,9 +19,7 @@ export class AuthController extends BaseController {
 
     public register = async (req: Request, res: Response) => {
         try {
-            let data = req.body;
             let user = await this.userService.createUniqueUser(req.body);
-
             if (!user) {
                 return this.sendResponse(
                     res,
@@ -44,14 +43,31 @@ export class AuthController extends BaseController {
                 }
             })
             if (!user) {
-                return this.sendResponse(res, {}, 404, "Invalid Email Or Password")
+                return this.sendResponse(res, {}, 404, "Invalid email or Password")
             }
-            let isSame=await bcrypt.compare(password,user.password)
-            if(isSame){
-                let token=jwt.sign({id:user.id},ENV.jwtSecret)
+            let isSame = await bcrypt.compare(password, user.password)
+            if (isSame) {
+                let token = jwt.sign({ id: user.id }, ENV.jwtSecret)
             }
-        } catch (error) {
+        } catch (error: any) {
+            this.sendError(res, 500, error.message)
+        }
+    }
 
+    public getUser = async (req: AuthRequest, res: Response) => {
+        try {
+            let reqUser = req?.user
+            if (!reqUser) {
+                return this.sendError(res, 400, "User Not exists")
+            }
+            let user = await this.userService.getUserById(reqUser?.id)
+            if (user) {
+                return this.sendResponse(res, user, 200, "User Details Fetched Successfully")
+            } else {
+                return this.sendError(res, 401, "Unautorized")
+            }
+        } catch (error: any) {
+            this.sendError(res, 500, error.message)
         }
     }
 
