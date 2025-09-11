@@ -1,4 +1,3 @@
-import { Router } from "express";
 import { AuthRoutes } from "./auth.router";
 import { UserRoutes } from "./user.router";
 import { BaseRouter } from "./BaseRouter";
