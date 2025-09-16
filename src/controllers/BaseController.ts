@@ -17,11 +17,12 @@ export abstract class BaseController {
   protected sendError(
     res: Response,
     status: number = 500,
-    message: string = "Internal Server Error"
+    error:any
   ) {
+    console.log(error)
     res.status(status).json({
       success: false,
-      message: message,
+      message: error?(typeof error=="string"?error:error.message):"Internal Server Error",
     });
   }
 }

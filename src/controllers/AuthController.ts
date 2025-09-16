@@ -49,6 +49,11 @@ export class AuthController extends BaseController {
                 let token = jwt.sign({ id: user.id }, ENV.jwtSecret, {
                     expiresIn: "2d",
                 });
+
+                res.cookie("token", token, {
+                    httpOnly: true,
+                    sameSite: 'none',
+                })
                 return this.sendResponse(
                     res,
                     { token },

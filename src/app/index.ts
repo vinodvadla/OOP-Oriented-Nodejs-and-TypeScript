@@ -4,6 +4,7 @@ import csurf from "csurf";
 import helmet from "helmet";
 import cors from "cors";
 import rateLimit from "express-rate-limit";
+import cookieParser from 'cookie-parser'
 
 class App {
   public app: Application;
@@ -11,8 +12,8 @@ class App {
 
   constructor() {
     this.app = express();
-    this.rootRouter = new RootRouter().router;
     this.config();
+    this.rootRouter = new RootRouter().router;
     this.routes();
   }
 
@@ -27,13 +28,16 @@ class App {
 
     this.app.use(
       cors({
-        origin: ["https://your-frontend.com"],
+        // origin: ["https://your-frontend.com"],
         credentials: true,
       })
     );
+
+
     // this.app.use(csurf({ cookie: true }));
 
-    this.app.use(helmet());
+    this.app.use(cookieParser())
+    // this.app.use(helmet());
     this.app.use(express.json());
     this.app.use(
       express.urlencoded({
@@ -43,7 +47,7 @@ class App {
   }
 
   private routes() {
-    this.app.use("/", this.rootRouter);
+    this.app.use("/v1", this.rootRouter);
     this.app.get("/", (req: Request, res: Response) => {
       res.status(200).json({
         success: true,

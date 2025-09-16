@@ -5,7 +5,6 @@ import jwt from 'jsonwebtoken'
 import { ENV } from "../config";
 import { AuthRequest } from "../types/Requesttypes";
 
-
 export class AuthMiddleware extends BaseController {
     private userService: UserService
     constructor() {
@@ -14,6 +13,10 @@ export class AuthMiddleware extends BaseController {
     }
     public authenticate = async (req: AuthRequest, res: Response, next: NextFunction) => {
         try {
+            let cookies=req.cookies
+            if(!cookies||!req.cookies.token){
+            return this.sendError(res,401,"Token is required")
+            }
             const { token } = req.cookies
             const isValidToken: any = jwt.verify(token, ENV.jwtSecret)
             if (!isValidToken) {
